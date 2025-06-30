@@ -36,8 +36,9 @@ class JsonClientSearchService
   # @return [Array<Hash>] an array of client hashes that share the same value for the specified field.
   #
   def duplicates(field: "email")
-    grouped = @clients.group_by { |c| c[field] }
-    grouped.select { |_, v| v.size > 1 }.values.flatten
+    valid_clients = @clients.select { |client| client[field].present? }
+    groups = valid_clients.group_by { |client| client[field] }
+    groups.select { |_, group| group.size > 1 }
   end
 
   private

@@ -76,12 +76,17 @@ RSpec.describe JsonClientSearchService do
 
     it "returns clients with duplicate emails" do
       duplicates = service.duplicates
-      emails = duplicates.map { |c| c["email"] }
-      expect(emails.count("john.doe@gmail.com")).to eq(2)
+      expect(duplicates.keys).to include("john.doe@gmail.com")
+      expect(duplicates["john.doe@gmail.com"].size).to eq(2)
     end
 
     it "returns empty array if there are no duplicates" do
       results = service.duplicates(field: "id")
+      expect(results).to be_empty
+    end
+
+    it "returns empty array if searching field does not exist" do
+      results = service.duplicates(field: "not-exist")
       expect(results).to be_empty
     end
   end
