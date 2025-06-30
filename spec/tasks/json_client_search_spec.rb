@@ -33,7 +33,6 @@ RSpec.describe 'client_search rake tasks', type: :task do
         { 'full_name' => 'Johnny Appleseed', 'email' => 'johnny@example.com' }
       ]
       allow(service_instance).to receive(:search).with(field: 'full_name', query: 'john').and_return(results)
-    
       expect {
         task.invoke('john', 'full_name')
       }.to output(/Found 2 matching client\(s\):.*John Doe/m).to_stdout
@@ -64,15 +63,13 @@ RSpec.describe 'client_search rake tasks', type: :task do
         ]
       }
       allow(service_instance).to receive(:duplicates).with(field: 'email').and_return(duplicates_hash)
-    
       expect {
         task.invoke(nil)
       }.to output(/Found duplicates by 'email':.*Duplicate: dup@example.com.*Alice/m).to_stdout
-    end    
+    end
 
     it 'prints no duplicates message when none found' do
       allow(service_instance).to receive(:duplicates).and_return({})
-
       expect {
         task.invoke('phone')
       }.to output(/No duplicates found for field: phone/).to_stdout

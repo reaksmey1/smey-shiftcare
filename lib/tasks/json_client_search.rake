@@ -3,7 +3,7 @@ namespace :client_search do
   # rake "client_search:find[john,full_name]"
   # rake "client_search:find[john]"
   desc "Search clients by field and query from a JSON file"
-  task :find, [:query, :field] => :environment do |t, args|
+  task :find, [ :query, :field ] => :environment do |t, args|
     unless args[:query]
       puts "Usage: rake client_search:run[query,field]"
       puts "Example: rake client_search:run[john,email]"
@@ -29,8 +29,8 @@ namespace :client_search do
   # rake "client_search:duplicates[email]"
   # rake "client_search:duplicates"
   desc "Find duplicate clients by a specific field (default: email)"
-  task :duplicates, [:field] => :environment do |t, args|
-    field = args[:field] || 'email'
+  task :duplicates, [ :field ] => :environment do |t, args|
+    field = args[:field] || "email"
 
     service = JsonClientSearchService.new
     duplicates = service.duplicates(field: field)

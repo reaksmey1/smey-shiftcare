@@ -7,8 +7,9 @@
 class JsonClientSearchService
   class InvalidJsonFormatError < StandardError; end
 
-  def initialize(file_path: Rails.root.join("lib/data/clients.json"))
-    @clients = load_json(file_path)
+  def initialize(file_path: nil)
+    path = file_path || ENV.fetch("CLIENTS_JSON_PATH") { Rails.root.join("lib/data/clients.json") }
+    @clients = load_json(path)
   end
 
   # Performs a search on the loaded client dataset.
